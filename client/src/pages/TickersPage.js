@@ -1,30 +1,75 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getTickets } from '../api';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {getTickets} from '../api';
 import Flex from '../components/Flex';
+import TickerButton from '../components/TickerButton';
 import TickersItem from '../components/TickersItem';
-import { setTickers } from '../redux/actions';
-import { ADD_DATA_FROM_SERVER } from '../utils/const';
+import {setTickers} from '../redux/actions';
+import {ADD_DATA_FROM_SERVER} from '../utils/const';
 
 export default function TickersPage() {
-    const dispatch = useDispatch()
-const tickers = useSelector(state => state.tickers)
+  const [loading, setLoading] = useState(true);
 
+  const dispatch = useDispatch();
+  const tickers = useSelector((state) => state.tickers);
+  const status = useSelector((state) => state.status);
+  const remove = useSelector((state) => state.remove);
+  const [tickerRemove, setTickerRemove] = useState(false);
 
- useEffect(() => { 
-  getTickets(ADD_DATA_FROM_SERVER, function(response){ dispatch(setTickers(response))} )
-}, []);
+  useEffect(() => {
+    getTickets(ADD_DATA_FROM_SERVER, function (response) {
+      dispatch(setTickers(response));
+    }).finally(() => setLoading(false));    
+  }, []);
 
+  let tickerResult = tickers;
+  for (let key in remove) {
+    if (remove[key] === true) {
+      tickerResult = tickers.filter((item) => item.ticker.name !== key);
+    }
+  }
+
+  function setRemove() {
+    setTickerRemove(!tickerRemove);
+  }
+
+  if (loading) {
+    return <Flex>LOADING...</Flex>;
+  }
 
   return (
-    <Flex direction='column' width='50vw' bRadius='15px' justify='space-around'>
-{tickers.map((ticker, idx) => 
-idx % 2 === 0 ?
- <TickersItem key={Date.now()*Math.random()} ticker={ticker} background='lightgray'/>
- :
- <TickersItem key={Date.now()*Math.random()} ticker={ticker} background='white'/>
-)}
-
+    <Flex direction="column" align="center">
+      <Flex width="50vw" justify="space-between" align="center" margin="20px 0">
+        {tickers.map((ticker) => (
+          <TickerButton setRemove={setRemove} key={Date.now() * Math.random()}>
+            {ticker.ticker.name}
+          </TickerButton>
+        ))}
+      </Flex>
+      <Flex
+        direction="column"
+        width="50vw"
+        bRadius="15px"
+        justify="space-around"
+      >
+        {tickerResult.map((ticker, idx) =>
+          idx % 2 === 0 ? (
+            <TickersItem
+              key={Date.now() * Math.random()}
+              ticker={ticker}
+              background="lightgray"
+              statusOnOf={status}
+            />
+          ) : (
+            <TickersItem
+              key={Date.now() * Math.random()}
+              ticker={ticker}
+              background="white"
+              statusOnOf={status}
+            />
+          )
+        )}
+      </Flex>
     </Flex>
-  )
+  );
 }
