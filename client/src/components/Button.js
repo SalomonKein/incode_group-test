@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
-  width: ${({width}) => width || '6.5vw'};
-  height: ${({height}) => height || '3vw'};
+const StyledButton = styled.button` 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 5px;
+  padding: 0.2rem 1rem;
   color: white;
   border-radius: 5px;
   cursor: pointer;

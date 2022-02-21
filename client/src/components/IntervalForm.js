@@ -3,8 +3,8 @@ import axios from 'axios';
 import Button from './Button';
 import styled from 'styled-components';
 import {getTickets, reconnectTickets} from '../api';
-import {ADD_DATA_FROM_SERVER} from '../utils/const';
-import {reconnect, setTickers} from '../redux/actions';
+import {ADD_DATA_FROM_SERVER, SERVER_URL} from '../utils/const';
+import {setTickers} from '../redux/actions';
 import {useDispatch} from 'react-redux';
 
 const StyledForm = styled.form`
@@ -20,9 +20,7 @@ export default function IntervalForm() {
   const dispatch = useDispatch();
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    axios
-      .post('http://localhost:4000', {choice})
-      .then((response) => console.log(response));
+    axios.post(SERVER_URL, {choice}).then((response) => console.log(response));
     reconnectTickets('disconnect', function (response) {
       dispatch(setTickers(response));
     });

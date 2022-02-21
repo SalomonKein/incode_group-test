@@ -5,8 +5,9 @@ import greenArrow from '../assets/green_arrow.png';
 import empty from '../assets/empty.png';
 
 const StyledArrow = styled.div`
-  width: 3vw;
-  height: 20px;
+  width: 3rem;
+  padding: 0.3rem;
+  margin-right: 0.7rem;
   display: flex;
   justify-content: end;
   align-item: end;

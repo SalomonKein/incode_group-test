@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const StyledItem = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction || 'row'};
-  width: 6vw;
+  width: 6rem;
+  padding: 1rem;
   height: 1.5rem;
   align-items: ${(props) => props.align || 'center'};
   justify-content: ${(props) => props.justify || 'center'};

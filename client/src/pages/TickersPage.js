@@ -19,13 +19,13 @@ export default function TickersPage() {
   useEffect(() => {
     getTickets(ADD_DATA_FROM_SERVER, function (response) {
       dispatch(setTickers(response));
-    }).finally(() => setLoading(false));    
+    }).finally(() => setLoading(false));
   }, []);
 
-  let tickerResult = tickers;
+  let tickerResult = [...tickers];
   for (let key in remove) {
     if (remove[key] === true) {
-      tickerResult = tickers.filter((item) => item.ticker.name !== key);
+      tickerResult = tickerResult.filter((item) => item.ticker.name !== key);
     }
   }
 
@@ -38,20 +38,15 @@ export default function TickersPage() {
   }
 
   return (
-    <Flex direction="column" align="center">
-      <Flex width="50vw" justify="space-between" align="center" margin="20px 0">
+    <Flex width="800px" direction="column" align="center">
+      <Flex justify="space-around" align="center" margin="20px 0">
         {tickers.map((ticker) => (
           <TickerButton setRemove={setRemove} key={Date.now() * Math.random()}>
             {ticker.ticker.name}
           </TickerButton>
         ))}
       </Flex>
-      <Flex
-        direction="column"
-        width="50vw"
-        bRadius="15px"
-        justify="space-around"
-      >
+      <Flex direction="column" bRadius="15px" justify="space-around">
         {tickerResult.map((ticker, idx) =>
           idx % 2 === 0 ? (
             <TickersItem

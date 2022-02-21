@@ -54,6 +54,7 @@ export default function TickersItem({ticker, background, statusOnOf}) {
       <Item>{status === 'on' ? ticker.change : 0.0}</Item>
       <Arrow arrow={status === 'on' ? arrow : 'none'} />
       <Item
+        margin="0 10px"
         background={status === 'on' ? currentBackground : 'none'}
         bRadius="5px"
       >
